@@ -9,19 +9,23 @@ using namespace std;
 
 int	main(void)
 {
-	char	ch;
+	char	input;
 
-	while (cin.get(ch) != '@')
+	cout << "Enter a character: ";
+	cin >> input;
+	while (input != '@')
 	{
-		if (isalpha(ch))
+		if (isdigit(input))
 		{
-			if (isupper(ch))
-				cout << tolower(ch);
-			else if (islower(ch))
-				cout << toupper(ch);
-		}
-		else if (isdigit(ch))
+			cin >> input;
 			continue ;
+		}
+		else if (islower(input))
+			input = toupper(input);
+		else
+			input = tolower(input);
+		cout << input;
+		cin >> input;
 	}
 	return (0);
 }

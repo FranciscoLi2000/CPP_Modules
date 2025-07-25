@@ -10,17 +10,40 @@ using namespace std;
 
 int	main(void)
 {
-	double	donations;
-	array<double, 10>;
+	double	input;
+	array<double, 10>	donation;
+	int	count;
+	double	sum;
+	double	average;
 
-	cout	<< "Enter the number of donations: ";
-	cin	>> donations;
-
-	cout	<< "Average of donations: "
-		<< average
-		<<endl;
-	cout	<< "The donations that are larger than the average has "
-		<< count
+	count = 0;
+	sum = 0.0;
+	cout << "Enter 10 double values: ";
+	while ((cin >> input))
+	{
+		donation[count++] = input;
+		if (count == 10)
+			break ;
+		cout << "Enter another value: ";
+	}
+	int i = 0;
+	while (i < count)
+	{
+		sum += donation[i];
+		i++;
+	}
+	cout << "Average: "
+		<< sum / count
+		<< endl;
+	int	big = 0;
+	for (int i = 0; i < count; i++)
+	{
+		if (donation[i] > (sum / count))
+			big++;
+	}
+	cout << "There is "
+		<< big
+		<< " values bigger than the average."
 		<< endl;
 	return (0);
 }
