@@ -22,10 +22,11 @@ int levelIndex(const std::string &level)
 int main(int argc, char **argv)
 {
     /*
-     * The switch statement lets us start at the matching level and fall
-     * through to all more serious messages above it.
+     * The switch statement picks the first level to print.
+     * After that, a simple loop prints that level and everything above it.
      */
     Karen karen;
+    const std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 
     if (argc != 2)
     {
@@ -33,20 +34,32 @@ int main(int argc, char **argv)
         return 0;
     }
 
+    int start = 4;
     switch (levelIndex(argv[1]))
     {
     case 0:
-        karen.complain("DEBUG");
+        start = 0;
+        break;
     case 1:
-        karen.complain("INFO");
+        start = 1;
+        break;
     case 2:
-        karen.complain("WARNING");
+        start = 2;
+        break;
     case 3:
-        karen.complain("ERROR");
+        start = 3;
         break;
     default:
-        std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
         break;
     }
+
+    if (start == 4)
+    {
+        std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
+        return 0;
+    }
+
+    for (int i = start; i < 4; ++i)
+        karen.complain(levels[i]);
     return 0;
 }
