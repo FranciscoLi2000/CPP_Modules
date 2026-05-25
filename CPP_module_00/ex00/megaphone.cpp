@@ -2,14 +2,15 @@
 #include <iostream>
 
 /*
- * argc = number of command-line arguments.
- * argv = array of C strings containing those arguments.
+ * This exercise is about command-line arguments:
+ * - argc tells us how many arguments were passed.
+ * - argv stores each argument as a C-style string (a char array ending with '\0').
  */
 int main(int argc, char **argv)
 {
     /*
-     * If the program is launched with no extra arguments, print the
-     * default "megaphone" message required by the subject.
+     * If there are no words after the program name, we must print the
+     * subject's default "megaphone" message.
      */
     if (argc == 1)
     {
@@ -18,16 +19,16 @@ int main(int argc, char **argv)
     }
 
     /*
-     * Start at index 1 because argv[0] is the program name itself.
-     * Then walk through each character of each argument.
+     * argv[0] is always the program name, so we start at 1.
+     * We then visit every character in every argument one by one.
      */
     for (int i = 1; i < argc; ++i)
     {
         for (int j = 0; argv[i][j] != '\0'; ++j)
         {
             /*
-            * std::toupper works on character values, but the input must be
-            * converted carefully to avoid undefined behavior.
+            * std::toupper expects an unsigned char value in the int range.
+            * Casting first avoids undefined behavior for non-ASCII bytes.
             */
             std::cout << static_cast<char>(
                std::toupper(static_cast<unsigned char>(argv[i][j])));

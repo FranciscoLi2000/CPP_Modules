@@ -10,8 +10,8 @@ public:
     ~Zombie();
 
     /*
-     * The zombie starts unnamed, then receives a name later.
-     * This helps show how an object can be created first and initialized next.
+     * A zombie is born without a name, then receives one later.
+     * That makes the object easier to reuse in the allocation exercises.
      */
     void setName(const std::string &name);
     void announce() const;

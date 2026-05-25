@@ -18,12 +18,14 @@ public:
              const std::string &phoneNumber,
              const std::string &darkestSecret);
 
+    /* Getters return read-only access to the stored strings. */
     const std::string &getFirstName() const;
     const std::string &getLastName() const;
     const std::string &getNickname() const;
     const std::string &getPhoneNumber() const;
     const std::string &getDarkestSecret() const;
 
+    /* printFull is used by SEARCH to show the complete contact. */
     void printFull() const;
 
 private:

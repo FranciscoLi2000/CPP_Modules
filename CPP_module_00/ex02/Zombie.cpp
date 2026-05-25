@@ -6,16 +6,16 @@ Zombie::Zombie()
     : name_()
 {
     /*
-     * An empty constructor creates the object with a valid state first.
-     * The name can then be assigned explicitly with setName().
+     * A constructor prepares the object before it is used.
+     * Here we start with an empty name and fill it later with setName().
      */
 }
 
 Zombie::~Zombie()
 {
     /*
-     * Destructors run automatically for stack objects and when delete is
-     * used on heap objects, so this is a good place to observe object lifetime.
+     * Destructors run automatically when an object leaves scope or is deleted.
+     * That makes them useful for observing the end of an object's lifetime.
      */
     std::cout << name_ << " is destroyed" << std::endl;
 }

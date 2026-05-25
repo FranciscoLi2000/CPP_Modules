@@ -10,8 +10,8 @@ public:
     ~Zombie();
 
     /*
-     * The zombie starts unnamed, then receives a name later.
-     * This helps show how an object can be created first and initialized next.
+     * The horde exercise creates many zombies first, then gives each one a
+     * name afterwards.
      */
     void setName(const std::string &name);
     void announce() const;
@@ -20,7 +20,6 @@ private:
     std::string name_;
 };
 
-Zombie *newZombie(const std::string &name);
-void randomChump(const std::string &name);
+Zombie *zombieHorde(int N, std::string name);
 
 #endif
