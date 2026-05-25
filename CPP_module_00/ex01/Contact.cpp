@@ -5,6 +5,10 @@
 Contact::Contact()
     : firstName_(), lastName_(), nickname_(), phoneNumber_(), darkestSecret_()
 {
+    /*
+     * Default construction gives us an empty but valid object.
+     * Each field starts as an empty string until the user enters data.
+     */
 }
 
 void Contact::set(const std::string &firstName,
@@ -13,6 +17,10 @@ void Contact::set(const std::string &firstName,
                   const std::string &phoneNumber,
                   const std::string &darkestSecret)
 {
+    /*
+     * We copy all values into the object so the contact keeps its own data
+     * after the input variables go out of scope.
+     */
     firstName_ = firstName;
     lastName_ = lastName;
     nickname_ = nickname;
@@ -22,6 +30,7 @@ void Contact::set(const std::string &firstName,
 
 const std::string &Contact::getFirstName() const
 {
+    /* Returning a const reference avoids copying the string. */
     return firstName_;
 }
 
@@ -48,8 +57,8 @@ const std::string &Contact::getDarkestSecret() const
 void Contact::printFull() const
 {
     /*
-     * Each member is printed on its own line so the user can inspect the
-     * complete contact after selecting it from SEARCH.
+     * SEARCH uses this function to show every stored field clearly.
+     * One line per member keeps the output easy to read.
      */
     std::cout << "First name: " << firstName_ << std::endl;
     std::cout << "Last name: " << lastName_ << std::endl;

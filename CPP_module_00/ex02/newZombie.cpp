@@ -3,8 +3,8 @@
 Zombie *newZombie(const std::string &name)
 {
     /*
-     * new allocates an object on the heap. That object stays alive until we
-     * explicitly delete it, which is why the caller receives a pointer.
+     * new allocates on the heap, so the object stays alive until delete is
+     * called. Returning a pointer hands ownership to the caller.
      */
     Zombie *zombie = new Zombie();
     zombie->setName(name);

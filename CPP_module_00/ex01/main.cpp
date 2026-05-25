@@ -9,8 +9,8 @@
 namespace
 {
 /*
- * std::getline reads a whole line, which matters here because contact fields
- * can contain spaces and should not be split at the first whitespace.
+ * Using std::getline lets us keep spaces inside names and secrets.
+ * A formatted input operator like std::cin >> value would stop at spaces.
  */
 bool readLine(const std::string &prompt, std::string &value)
 {
@@ -40,6 +40,10 @@ void readContact(PhoneBook &phoneBook)
 
 bool parseIndex(const std::string &input, std::size_t &index)
 {
+    /*
+     * SEARCH asks for a number, so we parse the whole string and reject any
+     * extra characters such as "2abc" or negative values.
+     */
     std::istringstream stream(input);
     int value = -1;
     char extra = '\0';
@@ -77,6 +81,10 @@ int main()
     PhoneBook phoneBook;
     std::string command;
 
+    /*
+     * The program stays in a simple loop until the user types EXIT or the
+     * input stream closes.
+     */
     while (true)
     {
         std::cout << "Enter command: ";

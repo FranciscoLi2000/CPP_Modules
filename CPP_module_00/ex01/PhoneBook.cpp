@@ -6,8 +6,8 @@
 namespace
 {
 /*
- * The table is limited to 10 characters per field, so longer text is clipped
- * and ends with a dot to show that data was removed.
+ * The phonebook table only has room for 10 visible characters per cell.
+ * If the text is longer, we clip it and add a dot to show truncation.
  */
 std::string fitField(const std::string &value)
 {
@@ -25,8 +25,8 @@ PhoneBook::PhoneBook()
 void PhoneBook::addContact(const Contact &contact)
 {
     /*
-     * The phonebook behaves like a ring buffer: once it is full, the next
-     * insertion overwrites the oldest slot instead of growing forever.
+     * The subject limits the phonebook to 8 contacts, so we reuse slots in a
+     * circle instead of letting the container grow forever.
      */
     contacts_[nextSlot_] = contact;
     nextSlot_ = (nextSlot_ + 1) % 8;
@@ -53,6 +53,10 @@ std::size_t PhoneBook::slotForDisplay(std::size_t index) const
 
 void PhoneBook::displayContacts() const
 {
+    /*
+     * First print the header, then show each stored contact on one row.
+     * The index shown to the user is the visible order, not the raw array slot.
+     */
     std::cout << "---------------------------------------------" << std::endl;
     std::cout << "|"
               << std::setw(10) << "Index" << "|"
@@ -75,6 +79,10 @@ void PhoneBook::displayContacts() const
 
 bool PhoneBook::showContact(std::size_t index) const
 {
+    /*
+     * The visible index is converted back to the real slot before printing
+     * the full contact information.
+     */
     if (index >= count_)
         return false;
     contacts_[slotForDisplay(index)].printFull();

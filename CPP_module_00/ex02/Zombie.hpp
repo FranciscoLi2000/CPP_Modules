@@ -10,9 +10,8 @@ public:
     ~Zombie();
 
     /*
-     * A setter is useful here because the exercise wants us to create a
-     * zombie first, then give it a name while learning how objects live on
-     * the stack or the heap.
+     * The zombie starts unnamed, then receives a name later.
+     * This helps show how an object can be created first and initialized next.
      */
     void setName(const std::string &name);
     void announce() const;

@@ -5,8 +5,10 @@
 int main()
 {
     /*
-     * The subject is about lifetime and allocation, so this tiny demo creates
-     * one zombie on the heap and one on the stack.
+     * This subject focuses on object lifetime, so the demo shows both ways of
+     * creating objects:
+     * - heap allocation with new/delete
+     * - automatic storage on the stack
      */
     Zombie *heapZombie = newZombie("Heapy");
     heapZombie->announce();
