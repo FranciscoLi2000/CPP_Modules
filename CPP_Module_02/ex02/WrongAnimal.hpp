@@ -28,7 +28,7 @@ public:
 	WrongAnimal(const WrongAnimal &src);
 	WrongAnimal	&operator=(const WrongAnimal &rhs);
 
-	virtual void	makeSound(void) const = 0;
+	virtual void	makeSound(void) const;
 	virtual void	eat(void) const;
 
 	const std::string	&getName(void) const;

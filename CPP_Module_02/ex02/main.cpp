@@ -82,7 +82,10 @@ int	main(void)
 	std::cout << "Notice: WrongDog destructor is NOT called! This is a memory leak!" << std::endl;
 	for (int i = 0; i < 2; i++)
 	{
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
 		delete wrong_animals[i];
+		#pragma GCC diagnostic pop
 	}
 
 	std::cout << "\n=== End of Program ===" << std::endl;

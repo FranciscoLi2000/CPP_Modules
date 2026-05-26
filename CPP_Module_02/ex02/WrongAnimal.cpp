@@ -31,6 +31,15 @@ WrongAnimal	&WrongAnimal::operator=(const WrongAnimal &rhs)
 	return (*this);
 }
 
+/*
+ * WrongAnimal's implementation of makeSound():
+ * This is not pure virtual, so WrongAnimal can be instantiated.
+ */
+void	WrongAnimal::makeSound(void) const
+{
+	std::cout << _name << " makes a generic animal sound." << std::endl;
+}
+
 void	WrongAnimal::eat(void) const
 {
 	std::cout << _name << " is eating." << std::endl;
