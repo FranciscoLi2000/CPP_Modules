@@ -1,0 +1,21 @@
+#ifndef CAT_HPP
+#define CAT_HPP
+
+/*
+ * Cat completes the abstract polymorphic pair.
+ */
+
+#include "Animal.hpp"
+
+class Cat : public Animal
+{
+public:
+	Cat(void);
+	Cat(const Cat &other);
+	Cat &operator=(const Cat &other);
+	virtual ~Cat(void);
+
+	virtual void	makeSound(void) const;
+};
+
+#endif

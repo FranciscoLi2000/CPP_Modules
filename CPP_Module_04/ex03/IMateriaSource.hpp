@@ -1,0 +1,20 @@
+#ifndef IMATERIASOURCE_HPP
+#define IMATERIASOURCE_HPP
+
+/*
+ * The source interface can learn and recreate Materia objects.
+ */
+
+#include <string>
+
+class AMateria;
+
+class IMateriaSource
+{
+public:
+	virtual ~IMateriaSource(void);
+	virtual void	learnMateria(AMateria *m) = 0;
+	virtual AMateria	*createMateria(std::string const &type) = 0;
+};
+
+#endif
