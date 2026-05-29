@@ -15,21 +15,21 @@
 class BitcoinExchange
 {
 private:
-std::map<std::string, double>_rates;
+    std::map<std::string, double> _rates;
 
-static std::stringtrim(const std::string& text);
-static boolisValidDate(const std::string& date);
-static boolparseValue(const std::string& text, double& value);
-doublerateForDate(const std::string& date) const;
+    static std::string trim(const std::string& text);
+    static bool isValidDate(const std::string& date);
+    static bool parseValue(const std::string& text, double& value);
+    double rateForDate(const std::string& date) const;
 
 public:
-BitcoinExchange(void);
-BitcoinExchange(const BitcoinExchange& other);
-BitcoinExchange&operator=(const BitcoinExchange& other);
-~BitcoinExchange(void);
+    BitcoinExchange(void);
+    BitcoinExchange(const BitcoinExchange& other);
+    BitcoinExchange& operator=(const BitcoinExchange& other);
+    ~BitcoinExchange(void);
 
-voidloadDatabase(const std::string& filename);
-voidprocessInput(const std::string& filename) const;
+    void loadDatabase(const std::string& filename);
+    void processInput(const std::string& filename) const;
 };
 
 #endif

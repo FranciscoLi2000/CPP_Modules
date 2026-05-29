@@ -14,10 +14,10 @@
 class RPN
 {
 public:
-static intevaluate(const std::string& expression);
+    static int evaluate(const std::string& expression);
 
 private:
-static boolisOperator(const std::string& token);
+    static bool isOperator(const std::string& token);
 };
 
 #endif
