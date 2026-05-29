@@ -1,25 +1,23 @@
-# 42 Barcelona C++ Modules — Learning Journey (CPP_Module_00 to CPP_Module_09)
+# 42 Barcelona C++ Modules (CPP_Module_00 → CPP_Module_09)
 
-This repository contains my solutions and learning notes for the 42 Barcelona C++ Modules.
-I built it as a structured path to move from a C mindset toward solid C++ programming, step by step.
+This repository contains my solutions and learning notes for the 42 Barcelona C++ Modules. I treated the modules as a structured path to move from a C mindset toward solid, modern C++ thinking, step by step. The focus is on understanding language fundamentals, object-oriented programming, memory management, and practical problem solving in C++.
 
-The goal here is not only to pass exercises, but to understand core language fundamentals, object-oriented design, memory and resource management, and practical C++ problem solving.
-Some parts were completed with AI-assisted vibecoding support, but the focus has always been on understanding the concepts behind the code.
+Some parts were completed with AI-assisted vibecoding, but the goal has always been to *understand* the reasoning behind each exercise and build real C++ intuition.
 
 ---
 
 ## What I Needed to Know Before Starting
 
-Before these modules, it helped a lot to already be comfortable with:
+These modules assume you already have a basic C foundation. Before starting, it helped a lot to be comfortable with:
 
 - Variables, loops, conditions, and functions
 - Pointers and references
-- Arrays, strings, and dynamic memory in C
-- `struct` usage and modular programming in C
-- Basic compilation with `g++`
-- A debugging mindset: reading compiler errors carefully and iterating patiently
+- Arrays, strings, and dynamic memory
+- `struct` usage and basic modular programming in C
+- Compiling with `g++`
+- A debugging mindset (reading compiler errors and iterating patiently)
 
-At the same time, these modules introduced (or deepened) key C++ topics:
+At the same time, the modules introduce or deepen important C++ topics:
 
 - Classes and objects
 - Constructors and destructors
@@ -33,67 +31,67 @@ At the same time, these modules introduced (or deepened) key C++ topics:
 - Namespaces
 - Streams and file I/O
 
-If you come from C, this path is demanding but very doable with consistent practice.
+If you’re coming from C, the learning curve is real—but this track is designed to make it manageable.
 
 ---
 
 ## What This C++ “Piscina” Teaches
 
-Completing these modules builds both technical skills and programming maturity:
+Completing the modules builds both technical ability and programming maturity:
 
 - Thinking in objects instead of only procedures
-- Understanding value semantics vs reference and pointer semantics
-- Managing resources more safely and predictably
-- Writing cleaner, more maintainable, and more modular code
-- Improving debugging habits and problem decomposition
-- Choosing better abstractions for real problems
+- Understanding value semantics vs reference/pointer semantics
+- Managing resources safely and predictably
+- Writing cleaner, more maintainable code
+- Building stronger debugging and problem-solving habits
+- Improving code organization and abstraction
 
-In short, it bridges the gap between “I can write C code” and “I can design C++ code.”
+Overall, it bridges the gap between “I can write C” and “I can design C++.”
 
 ---
 
 ## Module-by-Module Learning Value (High Level)
 
-Without spoiling exercise solutions, the modules roughly progress like this:
+Without giving away solutions, the modules roughly evolve like this:
 
 - **Early modules (00–02):**
-  C++ syntax foundations, classes, constructors and destructors, canonical form, basic object behavior, operator overloading, and early resource management patterns.
+  C++ syntax foundations, classes, constructors/destructors, canonical form, operator overloading, and early resource management.
 
 - **Middle modules (03–06):**
-  Inheritance, polymorphism, abstract interfaces, exceptions, deeper OOP modeling, and cleaner class architecture under stricter constraints.
+  Inheritance, polymorphism, abstract classes, exceptions, and clearer OOP design under stricter constraints.
 
 - **Later modules (07–09):**
-  Templates, generic programming mindset, STL containers, iterators and algorithms, and writing reusable components with stronger type safety and abstraction.
+  Templates, generic programming mindset, STL containers/iterators/algorithms, and reusable component design.
 
-The sequence is progressive on purpose: each module builds on habits learned in previous ones.
+Each step builds habits that make the next module more natural.
 
 ---
 
 ## What I Can Do After Finishing These Modules
 
-After this track, good next steps are:
+After completing this track, good next steps include:
 
-- Build small but complete C++ projects
-- Use STL confidently in practical code
-- Study RAII and smart pointers more deeply
-- Learn modern C++ features (C++11/14/17/20)
-- Practice algorithmic problem solving in C++
-- Build CLI tools, mini-games, simulations, or utility libraries
-- Prepare for internships, interviews, and real backend or system programming work
+- Writing small, complete C++ projects
+- Using the STL confidently in real code
+- Learning smart pointers and RAII more deeply
+- Exploring modern C++ features (C++11/14/17/20)
+- Practicing algorithmic problem solving
+- Building CLI tools, mini-games, simulations, or small libraries
+- Preparing for internships, interviews, or real backend/system programming
 
 ---
 
-## Real-World Applications of This Knowledge
+## Real-World Applications of the Knowledge
 
-These concepts are directly useful for:
+These concepts translate directly to practical work:
 
 - Writing safer and cleaner application code
-- Building software that is easier to maintain long-term
-- Designing reusable classes and components
-- Handling memory and resources correctly while avoiding common leaks and bugs
+- Building maintainable software over time
+- Designing reusable components
+- Handling resources correctly and avoiding leaks
 - Working on backend services, tools, game logic, or system utilities
 
-Even when you later use higher-level frameworks, these fundamentals continue to matter.
+Even when using higher-level frameworks, these fundamentals keep paying off.
 
 ---
 
@@ -112,13 +110,13 @@ CPP_Module_08/
 CPP_Module_09/
 ```
 
-Each module folder contains its corresponding exercises and source code.
+Each folder contains the corresponding exercises and source code for that module.
 
 ---
 
 ## Build / Compile Information
 
-Most exercises include a `Makefile`, but you can also compile manually in a generic way:
+Most exercises include a `Makefile`, but you can also compile manually with a generic command like:
 
 ```bash
 c++ -Wall -Wextra -Werror -std=c++98 *.cpp -o program
@@ -130,20 +128,16 @@ Or with `g++`:
 g++ -Wall -Wextra -Werror -std=c++98 *.cpp -o program
 ```
 
-> Adjust source files and output name depending on the exercise directory.
+> Adjust the source files and output name depending on the exercise directory.
 
 ---
 
 ## Learning Notes / Personal Reflections
 
-For me, this repository is more than a list of completed tasks.
-It reflects the transition from “making code work” to understanding *why* certain C++ patterns are safer, clearer, and more scalable.
-
-The hardest part was often not syntax, but mindset: learning to design classes carefully, reason about ownership and lifetimes, and treat compiler feedback as a tool instead of a blocker. That shift made a big difference in how I approach software engineering overall.
+This repository is more than a checklist of finished exercises. It reflects the shift from “making code work” to understanding *why* certain C++ patterns are safer, clearer, and more scalable. The hardest part was often mindset: designing classes carefully, reasoning about ownership and lifetimes, and treating compiler feedback as guidance rather than noise. That shift shaped how I approach software engineering overall.
 
 ---
 
 ## Conclusion
 
-The 42 C++ Modules gave me a strong foundation in core C++ and a more professional way of thinking about code structure, safety, and maintainability.
-If you are coming from C, this path is an excellent way to build real confidence in C++ step by step.
+The 42 C++ Modules gave me a strong foundation in core C++ and a more professional way of thinking about design, safety, and maintainability. If you’re coming from C, this is a solid path to build real confidence in C++ step by step.
