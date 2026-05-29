@@ -1,0 +1,190 @@
+/*
+** The database is kept as a map because the key is a date string.
+** ISO dates sort correctly as strings, so a lexicographical lookup is enough
+** to retrieve the closest lower date for the requested day.
+*/
+
+#include "BitcoinExchange.hpp"
+
+#include <cctype>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <limits>
+#include <sstream>
+#include <stdexcept>
+
+namespace
+{
+    bool isLeapYear(int year)
+    {
+        return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+    }
+
+    int daysInMonth(int year, int month)
+    {
+        static const int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+        if (month == 2 && isLeapYear(year))
+            return (29);
+        return (days[month - 1]);
+    }
+}
+
+BitcoinExchange::BitcoinExchange(void)
+{
+}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) : _rates(other._rates)
+{
+}
+
+BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other)
+{
+    if (this != &other)
+        this->_rates = other._rates;
+    return (*this);
+}
+
+BitcoinExchange::~BitcoinExchange(void)
+{
+}
+
+std::string BitcoinExchange::trim(const std::string& text)
+{
+    std::string::size_type first = text.find_first_not_of(" \t\r\n\f\v");
+
+    if (first == std::string::npos)
+        return (std::string());
+    return (text.substr(first, text.find_last_not_of(" \t\r\n\f\v") - first + 1));
+}
+
+bool BitcoinExchange::isValidDate(const std::string& date)
+{
+    int year;
+    int month;
+    int day;
+
+    if (date.size() != 10 || date[4] != '-' || date[7] != '-')
+        return (false);
+    for (std::size_t i = 0; i < date.size(); ++i)
+    {
+        if (i == 4 || i == 7)
+            continue;
+        if (!std::isdigit(static_cast<unsigned char>(date[i])))
+            return (false);
+    }
+    year = std::atoi(date.substr(0, 4).c_str());
+    month = std::atoi(date.substr(5, 2).c_str());
+    day = std::atoi(date.substr(8, 2).c_str());
+    if (month < 1 || month > 12)
+        return (false);
+    if (day < 1 || day > daysInMonth(year, month))
+        return (false);
+    return (true);
+}
+
+bool BitcoinExchange::parseValue(const std::string& text, double& value)
+{
+    char* end;
+
+    if (text.empty())
+        return (false);
+    value = std::strtod(text.c_str(), &end);
+    if (end == text.c_str() || *end != '\0')
+        return (false);
+    return (true);
+}
+
+double BitcoinExchange::rateForDate(const std::string& date) const
+{
+    std::map<std::string, double>::const_iterator it;
+
+    if (this->_rates.empty())
+        throw std::runtime_error("Error: could not open file.");
+    it = this->_rates.upper_bound(date);
+    if (it == this->_rates.begin())
+        return (it->second);
+    if (it == this->_rates.end() || it->first != date)
+        --it;
+    return (it->second);
+}
+
+void BitcoinExchange::loadDatabase(const std::string& filename)
+{
+    std::ifstream file(filename.c_str());
+    std::string line;
+
+    if (!file.is_open())
+        throw std::runtime_error("Error: could not open file.");
+    if (!std::getline(file, line))
+        throw std::runtime_error("Error: could not open file.");
+    while (std::getline(file, line))
+    {
+        std::string::size_type comma;
+        std::string dateText;
+        std::string rateText;
+        double rate;
+
+        line = trim(line);
+        if (line.empty())
+            continue;
+        comma = line.find(',');
+        if (comma == std::string::npos)
+            continue;
+        dateText = trim(line.substr(0, comma));
+        rateText = trim(line.substr(comma + 1));
+        if (!isValidDate(dateText) || !parseValue(rateText, rate))
+            continue;
+        this->_rates[dateText] = rate;
+    }
+}
+
+void BitcoinExchange::processInput(const std::string& filename) const
+{
+    std::ifstream file(filename.c_str());
+    std::string line;
+
+    if (!file.is_open())
+        throw std::runtime_error("Error: could not open file.");
+    while (std::getline(file, line))
+    {
+        std::string::size_type pipe;
+        std::string dateText;
+        std::string valueText;
+        double value;
+
+        line = trim(line);
+        if (line.empty() || line == "date | value")
+            continue;
+        pipe = line.find('|');
+        if (pipe == std::string::npos)
+        {
+            std::cout << "Error: bad input => " << line << std::endl;
+            continue;
+        }
+        dateText = trim(line.substr(0, pipe));
+        valueText = trim(line.substr(pipe + 1));
+        if (dateText.empty() || valueText.empty() || !isValidDate(dateText))
+        {
+            std::cout << "Error: bad input => " << line << std::endl;
+            continue;
+        }
+        if (!parseValue(valueText, value))
+        {
+            std::cout << "Error: bad input => " << line << std::endl;
+            continue;
+        }
+        if (value < 0)
+        {
+            std::cout << "Error: not a positive number." << std::endl;
+            continue;
+        }
+        if (value > 1000)
+        {
+            std::cout << "Error: too large a number." << std::endl;
+            continue;
+        }
+        std::cout << dateText << " => " << valueText << " = " << value * rateForDate(dateText) << std::endl;
+    }
+}

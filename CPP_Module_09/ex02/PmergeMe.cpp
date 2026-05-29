@@ -1,0 +1,165 @@
+/*
+** The implementation is split in two almost identical versions on purpose.
+** CPP09 asks us to compare containers, so we keep one path for std::vector
+** and one path for std::deque instead of hiding everything behind templates.
+*/
+
+#include "PmergeMe.hpp"
+
+#include <algorithm>
+#include <cerrno>
+#include <climits>
+#include <cstdlib>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <stdexcept>
+
+namespace
+{
+    template <typename Container>
+    void binaryInsert(Container& chain, int value)
+    {
+        typename Container::iterator pos = std::lower_bound(chain.begin(), chain.end(), value);
+        chain.insert(pos, value);
+    }
+}
+
+bool PmergeMe::parsePositiveInt(const std::string& text, int& value)
+{
+    char* end;
+    long parsed;
+
+    if (text.empty())
+        return (false);
+    errno = 0;
+    parsed = std::strtol(text.c_str(), &end, 10);
+    if (errno != 0 || end == text.c_str() || *end != '\0')
+        return (false);
+    if (parsed <= 0 || parsed > INT_MAX)
+        return (false);
+    value = static_cast<int>(parsed);
+    return (true);
+}
+
+void PmergeMe::mergeInsertSort(std::vector<int>& numbers)
+{
+    if (numbers.size() <= 1)
+        return;
+
+    std::vector<int> mainChain;
+    std::vector<int> pending;
+    std::size_t i = 0;
+
+    for (; i + 1 < numbers.size(); i += 2)
+    {
+        int first = numbers[i];
+        int second = numbers[i + 1];
+
+        if (first < second)
+        {
+            mainChain.push_back(second);
+            pending.push_back(first);
+        }
+        else
+        {
+            mainChain.push_back(first);
+            pending.push_back(second);
+        }
+    }
+    if (i < numbers.size())
+        pending.push_back(numbers.back());
+
+    mergeInsertSort(mainChain);
+    for (std::size_t index = 0; index < pending.size(); ++index)
+        binaryInsert(mainChain, pending[index]);
+    numbers.swap(mainChain);
+}
+
+void PmergeMe::mergeInsertSort(std::deque<int>& numbers)
+{
+    if (numbers.size() <= 1)
+        return;
+
+    std::deque<int> mainChain;
+    std::deque<int> pending;
+    std::size_t i = 0;
+
+    for (; i + 1 < numbers.size(); i += 2)
+    {
+        int first = numbers[i];
+        int second = numbers[i + 1];
+
+        if (first < second)
+        {
+            mainChain.push_back(second);
+            pending.push_back(first);
+        }
+        else
+        {
+            mainChain.push_back(first);
+            pending.push_back(second);
+        }
+    }
+    if (i < numbers.size())
+        pending.push_back(numbers.back());
+
+    mergeInsertSort(mainChain);
+    for (std::size_t index = 0; index < pending.size(); ++index)
+        binaryInsert(mainChain, pending[index]);
+    numbers.swap(mainChain);
+}
+
+void PmergeMe::printSequence(const char* label, const std::vector<int>& numbers)
+{
+    std::cout << label;
+    for (std::size_t i = 0; i < numbers.size(); ++i)
+    {
+        if (i != 0)
+            std::cout << ' ';
+        std::cout << numbers[i];
+    }
+    std::cout << std::endl;
+}
+
+void PmergeMe::printTiming(const char* label, std::size_t count, std::clock_t start, std::clock_t end)
+{
+    double microseconds;
+
+    microseconds = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
+    std::cout << "Time to process a range of " << count << " elements with " << label << " : "
+              << std::fixed << std::setprecision(5) << microseconds << " us" << std::endl;
+}
+
+void PmergeMe::run(int argc, char** argv)
+{
+    std::vector<int> original;
+    std::vector<int> vectorValues;
+    std::deque<int> dequeValues;
+    std::size_t i;
+
+    if (argc < 2)
+        throw std::runtime_error("Error");
+    for (i = 1; i < static_cast<std::size_t>(argc); ++i)
+    {
+        int value;
+
+        if (!parsePositiveInt(argv[i], value))
+            throw std::runtime_error("Error");
+        original.push_back(value);
+    }
+    vectorValues = original;
+    dequeValues.assign(original.begin(), original.end());
+
+    printSequence("Before: ", original);
+    std::clock_t vectorStart = std::clock();
+    mergeInsertSort(vectorValues);
+    std::clock_t vectorEnd = std::clock();
+    std::clock_t dequeStart = std::clock();
+    mergeInsertSort(dequeValues);
+    std::clock_t dequeEnd = std::clock();
+
+    printSequence("After: ", vectorValues);
+    printTiming("std::vector", vectorValues.size(), vectorStart, vectorEnd);
+    printTiming("std::deque", dequeValues.size(), dequeStart, dequeEnd);
+}
